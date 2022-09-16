@@ -1,16 +1,24 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:such/animation/Animation.dart';
 import 'package:such/bloc/bloc.dart';
 import 'package:such/bloc/events.dart';
 
+import 'Camera/example.dart';
 import 'bloc/states.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  //runApp(const CameraApp());
+  runApp(MyApp(cameras: cameras));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final List<CameraDescription> cameras;
+
+  const MyApp({super.key, required this.cameras});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: AnimationMyApp(cameras: cameras),
     );
   }
 }
